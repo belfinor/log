@@ -1,8 +1,8 @@
 package log
 
 // @author  Mikhail Kirillov <mikkirillov@yandex.ru>
-// @version 1.000
-// @date    2018-06-21
+// @version 1.001
+// @date    2019-07-11
 
 var defLog *Log
 
@@ -40,4 +40,8 @@ func Finish(str ...interface{}) {
 
 func Fatal(str ...interface{}) {
 	defLog.Fatal(str...)
+}
+
+func Logger(level string, strs ...interface{}) {
+	defLog.Logger(level, strs)
 }

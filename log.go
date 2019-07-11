@@ -1,15 +1,15 @@
 package log
 
 // @author  Mikhail Kirillov <mikkirillov@yandex.ru>
-// @version 1.011
-// @date    2019-04-18
+// @version 1.012
+// @date    2019-07-11
 
 import (
 	"fmt"
 	"os"
 	"time"
 
-	"github.com/belfinor/Helium/time/strftime"
+	"github.com/belfinor/ltime/strftime"
 )
 
 var logLevels map[string]int = map[string]int{
@@ -35,7 +35,7 @@ type Log struct {
 	end       bool
 }
 
-func (l *Log) logger(level string, strs []interface{}) {
+func (l *Log) Logger(level string, strs []interface{}) {
 
 	if l == nil {
 		return
@@ -164,34 +164,34 @@ func (l *Log) Close() {
 }
 
 func (l *Log) Fatal(str ...interface{}) {
-	l.logger("fatal", str)
+	l.Logger("fatal", str)
 	l.Close()
 	os.Exit(1)
 }
 
 func (l *Log) Finish(str ...interface{}) {
-	l.logger("info", str)
+	l.Logger("info", str)
 	l.Close()
 }
 
 func (l *Log) Error(str ...interface{}) {
-	l.logger("error", str)
+	l.Logger("error", str)
 }
 
 func (l *Log) Info(str ...interface{}) {
-	l.logger("info", str)
+	l.Logger("info", str)
 }
 
 func (l *Log) Debug(str ...interface{}) {
-	l.logger("debug", str)
+	l.Logger("debug", str)
 }
 
 func (l *Log) Warn(str ...interface{}) {
-	l.logger("warn", str)
+	l.Logger("warn", str)
 }
 
 func (l *Log) Trace(str ...interface{}) {
-	l.logger("trace", str)
+	l.Logger("trace", str)
 }
 
 func (l *Log) SetLevel(lvl string) {
