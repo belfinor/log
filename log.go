@@ -71,18 +71,20 @@ func New(c *Config, def bool) (*Log, error) {
 		eofC:      make(chan bool),
 	}
 
-	var err error
+	if c.Template != "" {
+		var err error
 
-	if l.fh, err = os.OpenFile(l.filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0755); err != nil {
-		return nil, err
+		if l.fh, err = os.OpenFile(l.filename, os.O_RDWR|os.O_APPEND|os.O_CREATE, 0755); err != nil {
+			return nil, err
+		}
+
+		if c.Save > 0 {
+			rm_name := strftime.Format(c.Template, time.Unix(l.lastCheck-int64(c.Save*c.Period), 0))
+			os.Remove(rm_name)
+		}
 	}
 
 	l.SetLevel(c.Level)
-
-	if c.Save > 0 {
-		rm_name := strftime.Format(c.Template, time.Unix(l.lastCheck-int64(c.Save*c.Period), 0))
-		os.Remove(rm_name)
-	}
 
 	if def && defLog == nil {
 		defLog = l
@@ -129,18 +131,25 @@ func (l *Log) writer() {
 
 		case str := <-l.input:
 
+			conf := l.conf
+
 			if str == eof {
+
+				if l.fh != nil {
+					l.fh.Close()
+				}
+
 				close(l.eofC)
 				return
 			}
 
-			l.rotate()
-
 			str = strftime.Format("%Y-%m-%d %H:%M:%S", time.Now()) + "|" + str + "\n"
-			l.fh.WriteString(str)
-			l.fh.Sync()
 
-			conf := l.conf
+			if l.fh != nil {
+				l.rotate()
+				l.fh.WriteString(str)
+				l.fh.Sync()
+			}
 
 			if conf.StdOut {
 				os.Stdout.WriteString(str)
@@ -153,17 +162,22 @@ func (l *Log) writer() {
 			}
 
 		case <-time.After(time.Minute):
-			l.rotate()
+
+			if l.fh != nil {
+				l.rotate()
+			}
 		}
 	}
 }
 
 func (l *Log) Close() {
 	if l != nil {
-		l.end = true
-		l.input <- eof
-		<-l.eofC
-		close(l.input)
+		if l.end != true {
+			l.end = true
+			l.input <- eof
+			<-l.eofC
+			close(l.input)
+		}
 	}
 }
 
