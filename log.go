@@ -134,6 +134,7 @@ func Open(params string) (*Log, error) {
 	}
 
 	cfg.Save = args.GetInt("save", 14)
+	cfg.Level = args.GetString("level", "info")
 
 	return New(cfg, args.GetBool("global", true))
 }

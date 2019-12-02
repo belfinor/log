@@ -16,14 +16,14 @@ func TestLoggerSetLevel(t *testing.T) {
 		t.Fatal("defLog=nil")
 	}
 
-	if GetLevel() != "none" {
+	if GetLevel() != "info" {
 		t.Fatal("invalid default log level")
 	}
 
-	SetLevel("info")
+	SetLevel("error")
 
-	if GetLevel() != "info" {
-		t.Fatal("expected log level 'info'")
+	if GetLevel() != "error" {
+		t.Fatal("expected log level 'error'")
 	}
 
 	Errorf("failed %d", 1)
