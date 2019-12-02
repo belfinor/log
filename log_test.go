@@ -10,7 +10,11 @@ import (
 
 func TestLoggerSetLevel(t *testing.T) {
 
-	defLog, _ = New(&Config{}, true)
+	defLog, _ = Open("global=1")
+
+	if defLog == nil {
+		t.Fatal("defLog=nil")
+	}
 
 	if GetLevel() != "none" {
 		t.Fatal("invalid default log level")
@@ -40,5 +44,5 @@ func TestLoggerSetLevel(t *testing.T) {
 	Debugf("Hello, %s", "Mike")
 	Tracef("Hello, %s", "Mike")
 
-	defLog.Close()
+	Close()
 }

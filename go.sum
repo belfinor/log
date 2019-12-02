@@ -1,2 +1,4 @@
+github.com/belfinor/kvstring v1.0.0 h1:M0b5IVTSm3+cKZuU6ySUW+hR+nAEizS0uGFUewmSK5o=
+github.com/belfinor/kvstring v1.0.0/go.mod h1:O+5roAfl1rmj8KkYu0yWlzcKL+M91Ahersh1pnIEKKw=
 github.com/belfinor/ltime v1.0.0 h1:gdXWzvQsIOY/0RZHGiCnctSJXQEjxUGQ/Uo7TD39cqI=
 github.com/belfinor/ltime v1.0.0/go.mod h1:iDBKtP06KmqyM/SO6IqNSGJuy4/9FJWlombEjfK0QoA=

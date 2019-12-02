@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/belfinor/kvstring"
 	"github.com/belfinor/ltime/strftime"
 )
 
@@ -97,6 +98,44 @@ func New(c *Config, def bool) (*Log, error) {
 
 func Init(c *Config) {
 	New(c, true)
+}
+
+func Open(params string) (*Log, error) {
+
+	args, err := kvstring.New(params)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg := &Config{}
+
+	cfg.StdErr = args.GetBool("stderr", false)
+	cfg.StdOut = args.GetBool("stdout", false)
+
+	name := args.GetString("name", "")
+	if name != "" {
+		template := args.GetString("path", ".") + "/" + name
+		period := args.GetString("period", "day")
+
+		switch period {
+		case "day":
+			template += "-%Y%m%d.log"
+			cfg.Period = 86400
+		case "hour":
+			template += "-%Y%m%d%H.log"
+			cfg.Period = 3600
+		case "month":
+			template += "-%Y%m.log"
+			cfg.Period = 86400 * 31
+		default:
+			template += "-%Y%m%d.log"
+			cfg.Period = 86400
+		}
+	}
+
+	cfg.Save = args.GetInt("save", 14)
+
+	return New(cfg, args.GetBool("global", true))
 }
 
 func (l *Log) rotate() {

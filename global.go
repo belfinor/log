@@ -73,3 +73,8 @@ func Fatalf(format string, str ...interface{}) {
 func Logger(level string, strs ...interface{}) {
 	defLog.Logger(level, strs)
 }
+
+func Close() {
+	defLog.Close()
+	defLog = nil
+}
