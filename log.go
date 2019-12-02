@@ -1,8 +1,8 @@
 package log
 
 // @author  Mikhail Kirillov <mikkirillov@yandex.ru>
-// @version 1.012
-// @date    2019-07-11
+// @version 1.013
+// @date    2019-12-02
 
 import (
 	"fmt"
@@ -10,6 +10,10 @@ import (
 	"time"
 
 	"github.com/belfinor/ltime/strftime"
+)
+
+const (
+	eof = "9e93c0c16d5bb7447e68e1d15e64215e"
 )
 
 var logLevels map[string]int = map[string]int{
@@ -125,7 +129,7 @@ func (l *Log) writer() {
 
 		case str := <-l.input:
 
-			if str == "eof" {
+			if str == eof {
 				close(l.eofC)
 				return
 			}
@@ -157,7 +161,7 @@ func (l *Log) writer() {
 func (l *Log) Close() {
 	if l != nil {
 		l.end = true
-		l.input <- "eof"
+		l.input <- eof
 		<-l.eofC
 		close(l.input)
 	}
