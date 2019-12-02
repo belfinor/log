@@ -131,6 +131,8 @@ func Open(params string) (*Log, error) {
 			template += "-%Y%m%d.log"
 			cfg.Period = 86400
 		}
+
+		cfg.Template = template
 	}
 
 	cfg.Save = args.GetInt("save", 14)
