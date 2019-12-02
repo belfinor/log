@@ -173,29 +173,57 @@ func (l *Log) Fatal(str ...interface{}) {
 	os.Exit(1)
 }
 
+func (l *Log) Fatalf(format string, args ...interface{}) {
+	l.Fatal(fmt.Sprintf(format, args...))
+}
+
 func (l *Log) Finish(str ...interface{}) {
 	l.Logger("info", str)
 	l.Close()
+}
+
+func (l *Log) Finishf(format string, args ...interface{}) {
+	l.Finish(fmt.Sprintf(format, args...))
 }
 
 func (l *Log) Error(str ...interface{}) {
 	l.Logger("error", str)
 }
 
+func (l *Log) Errorf(format string, args ...interface{}) {
+	l.Error(fmt.Sprintf(format, args...))
+}
+
 func (l *Log) Info(str ...interface{}) {
 	l.Logger("info", str)
+}
+
+func (l *Log) Infof(format string, args ...interface{}) {
+	l.Info(fmt.Sprintf(format, args...))
 }
 
 func (l *Log) Debug(str ...interface{}) {
 	l.Logger("debug", str)
 }
 
+func (l *Log) Debugf(format string, args ...interface{}) {
+	l.Debug(fmt.Sprintf(format, args...))
+}
+
 func (l *Log) Warn(str ...interface{}) {
 	l.Logger("warn", str)
 }
 
+func (l *Log) Warnf(format string, args ...interface{}) {
+	l.Warn(fmt.Sprintf(format, args...))
+}
+
 func (l *Log) Trace(str ...interface{}) {
 	l.Logger("trace", str)
+}
+
+func (l *Log) Tracef(format string, args ...interface{}) {
+	l.Trace(fmt.Sprintf(format, args...))
 }
 
 func (l *Log) SetLevel(lvl string) {

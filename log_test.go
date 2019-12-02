@@ -1,8 +1,8 @@
 package log
 
 // @author  Mikhail Kirillov <mikkirillov@yandex.ru>
-// @version 1.001
-// @date    2017-06-21
+// @version 1.002
+// @date    2017-12-02
 
 import (
 	"testing"
@@ -29,4 +29,9 @@ func TestLoggerSetLevel(t *testing.T) {
 	Info("info")
 	Debug("debug")
 	Trace("trace", 1, "trace", 2)
+	Infof("Hello, %s", "Mike")
+	Errorf("Hello, %s", "Mike")
+	Warnf("Hello, %s", "Mike")
+	Debugf("Hello, %s", "Mike")
+	Tracef("Hello, %s", "Mike")
 }
