@@ -40,6 +40,8 @@ func main() {
 
 *period* can take one of the following values: *hour*, *day* or *month*. The *save* parameter specifies the number of log files to save. Logs are saved in the *path* directory and has names (app-YYYYMMDD.log if period is day, app-YYYYMM.log if period is month and app-YYYYMMDDHH.log if period is hour).
 
+When a new period comes, the old log file will be closed and a new one will be created.
+
 *log.Finish* closes log writer and save all messages to log file.
 
 You can use multiple log writers in your application. Add params *global=0* and *log.Open* return custom log object.
